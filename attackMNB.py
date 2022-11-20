@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 from keras_preprocessing.sequence import pad_sequences
 import pickle
-from goog_lm import LM
+from model.goog_lm import LM
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.feature_extraction.text import CountVectorizer
