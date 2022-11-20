@@ -40,11 +40,11 @@ if __name__=="__main__":
     test_labels = test_data["sentiment"]
 
     ### Traing Robust Naive Bayes model.
-    RNB = RobustNaiveBayesClassifierPercentage(100)
-    RNB.fit(training_features, training_labels)
-    y_pred_RNB = RNB.predict(test_features)
-    acc = accuracy_score(test_labels, y_pred_RNB)
-    print("RNB ccuracy on the IMDB dataset: {:.2f}".format(acc*100))
+    MNB = MultinomialNB()
+    MNB.fit(training_features, training_labels)
+    y_pred_MNB = MNB.predict(test_features)
+    acc = accuracy_score(test_labels, y_pred_MNB)
+    print("MNB ccuracy on the IMDB dataset: {:.2f}".format(acc*100))
 
     ### Setup GloVe and GoogleLM.
     goog_lm = LM()
@@ -71,10 +71,10 @@ if __name__=="__main__":
     if tf.compat.v1.get_default_session():
         sess.close()
         
-    ### Start Attacking RNB.
+    ### Start Attacking MNB.
     pop_size = 60
     n1 = 8
-    model = WrapperModel(dataset,RNB,vectorizer)
+    model = WrapperModel(dataset,MNB,vectorizer)
     ga_atttack = GeneticAtack(sess, model, model, model, dataset, dist_mat, 
                                     skip_list,
                                     goog_lm, max_iters=30, 
@@ -102,4 +102,4 @@ if __name__=="__main__":
     ### Write out results.
     df = pd.DataFrame(list(zip(orig_list,adv_list,dist_list)),
                columns =['Original_text', 'Adverserial_text','Percent_changed'])
-    df.to_csv('RNB_result', index=False)
+    df.to_csv('MNB_result', index=False)
