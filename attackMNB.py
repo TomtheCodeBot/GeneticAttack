@@ -84,7 +84,7 @@ if __name__=="__main__":
                                     use_lm = True, use_suffix=False)
     sample_size=int( config["GENERAL"]["SAMPLE_SIZE"])
     test_size=int( config["GENERAL"]["TEST_SIZE"])
-    orig_list,adv_list,dist_list = attackModel(dataset,test_x,test_y,model,ga_atttack)
+    orig_list,adv_list,dist_list = attackModel(dataset,test_x,test_y,model,ga_atttack,sample_size,test_size)
     
     ### Decode text.
     x_len = np.sum(np.sign(orig_list),axis=-1)
@@ -102,4 +102,4 @@ if __name__=="__main__":
     ### Write out results.
     df = pd.DataFrame(list(zip(orig_list,adv_list,dist_list)),
                columns =['Original_text', 'Adverserial_text','Percent_changed'])
-    df.to_csv('MNB_result', index=False)
+    df.to_csv('MNB_result.csv', index=False)
